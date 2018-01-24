@@ -1,7 +1,9 @@
 package com.oms.configs;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -36,26 +38,36 @@ import org.springframework.web.util.UrlPathHelper;
 import com.oms.domain.Product;
 import com.oms.interceptors.ProcessingTimeLogInterceptor;
 import com.oms.interceptors.PromoCodeInterceptor;
+import com.oms.validators.ProductFormValidator;
+import com.oms.validators.UnitsInStockValidator;
 
-/*
- * TODO: Change WebMvcConfigurationSupport to WebMvcConfigurer
- * */
+
 @Configuration
 @EnableWebMvc
 @ComponentScan("com.oms")
 public class WebApplicationContextConfig implements WebMvcConfigurer {
-	// extends WebMvcConfigurationSupport {
 
-	@Override 
-    public Validator getValidator(){ 
-       return validator(); 
-    } 
-	
+	@Override
+	public Validator getValidator() {
+		return validator();
+	}
+
 	@Bean(name = "validator")
 	public LocalValidatorFactoryBean validator() {
 		LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
 		bean.setValidationMessageSource(messageSource());
 		return bean;
+	}
+
+	@Bean
+	public ProductFormValidator productValidator() {
+		Set<Validator> springValidators = new HashSet<>();
+		springValidators.add(new UnitsInStockValidator());
+
+		ProductFormValidator productValidator = new ProductFormValidator();
+		productValidator.setSpringValidators(springValidators);
+
+		return productValidator;
 	}
 
 	@Bean
