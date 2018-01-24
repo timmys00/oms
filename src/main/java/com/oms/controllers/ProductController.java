@@ -28,6 +28,7 @@ import com.oms.domain.Product;
 import com.oms.exceptions.NoProductsFoundUnderCategoryException;
 import com.oms.exceptions.ProductNotFoundException;
 import com.oms.services.ProductService;
+import com.oms.validators.UnitsInStockValidator;
 
 @Controller
 @RequestMapping("market")
@@ -35,7 +36,8 @@ public class ProductController {
 
 	@Autowired
 	private ProductService productService;
-
+	@Autowired 
+    private UnitsInStockValidator unitsInStockValidator;
 	/*
 	 * TODO: - dateformat fields
 	 */
@@ -43,6 +45,7 @@ public class ProductController {
 	public void initialiseBinder(WebDataBinder binder) {
 		binder.setAllowedFields("productId", "name", "description", "manufacturer", "unitPrice", "category",
 				"unitsInStock", "condition", "productImage", "language");
+		binder.setValidator(unitsInStockValidator); 
 
 		// DateFormat dateFormat = new SimpleDateFormat("MMM d, YYYY");
 		// CustomDateEditor orderDateEditor = new CustomDateEditor(dateFormat,
