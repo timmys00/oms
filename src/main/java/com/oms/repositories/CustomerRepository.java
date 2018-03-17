@@ -29,10 +29,10 @@ public class CustomerRepository implements ICustomerRepository {
 	   private static final class CustomerMapper implements RowMapper<Customer> { 
 		     public Customer mapRow(ResultSet rs, int rowNum) throws SQLException { 
 		    	 Customer product = new Customer(); 
-			     product.setCustomerId(rs.getString("CUSTOMER_ID")); 
+			     //product.setCustomerId(rs.getString("CUSTOMER_ID")); 
 			     product.setName(rs.getString("NAME")); 
-			     product.setAddress(rs.getString("ADDRESS")); 
-			     product.setNoOfOrdersMade(rs.getBigDecimal("NO_OF_ORDERS_MADE")); 
+//			     product.setAddress(rs.getString("ADDRESS")); 
+//			     product.setNoOfOrdersMade(rs.getBigDecimal("NO_OF_ORDERS_MADE")); 
 			     return product; 
 		     } 
 		   }

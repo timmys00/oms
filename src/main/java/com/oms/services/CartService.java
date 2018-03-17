@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.oms.domain.Cart;
+import com.oms.exceptions.InvalidCartException;
 import com.oms.repositories.CartRepository;
 import com.oms.viewmodels.CartViewModel;
 
@@ -41,4 +42,20 @@ public class CartService implements ICartService {
 	public void removeItem(String cartId, String productId) {
 		cartRepository.removeItem(cartId, productId);
 	}
+
+	@Override
+	public Cart validate(String cartId) {
+		Cart cart = cartRepository.read(cartId);
+		if (cart == null || cart.getCartItems().size() == 0) {
+			throw new InvalidCartException(cartId);
+		}
+
+		return cart;
+	}
+
+	@Override
+	public void clearCart(String cartId) {
+		cartRepository.clearCart(cartId);
+	}
+
 }
