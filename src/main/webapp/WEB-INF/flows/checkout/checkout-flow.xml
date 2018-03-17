@@ -4,11 +4,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow.xsd">
 
-	<var name="order" class="com.packt.webstore.domain.Order" />
+	<var name="order" class="com.oms.domain.Order" />
 
 	<action-state id="addCartToOrder">
-		<evaluate expression="cartServiceImpl.validate(requestParameters.cartId)" result="order.cart" />
-		<transition to="invalidCartWarning" on-exception="com.packt.webstore.exception.InvalidCartException" />
+		<evaluate expression="cartService.validate(requestParameters.cartId)" result="order.cart" />
+		<transition to="invalidCartWarning" on-exception="com.oms.exceptions.InvalidCartException" />
 		<transition to="collectCustomerInfo" />
 	</action-state>
 
@@ -28,7 +28,7 @@
 	</view-state>
 
 	<action-state id="processOrder">
-		<evaluate expression="orderServiceImpl.saveOrder(order)"
+		<evaluate expression="orderService.saveOrder(order)"
 			result="order.orderId" />
 		<transition to="thankCustomer" />
 	</action-state>
